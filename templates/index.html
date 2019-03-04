@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="welcome row justify-content-center justify-content-between">
+    <span class="col-2">Welcome {{user}}!</span>
+    <form class="col-2" action="{{url_for('logout')}}">
+        <button>Logout</button>
+    </form>
+</div>
+
+{% if error %}
+<div class='row justify-content-center'>
+<div class='text-center alert alert-danger col-sm-6 col-md-3 ' role="alert">{{error}}</div>
+</div>
+{% endif %}
+
+<div class='row'>
+{% for book in books %}
+<a class="col-md-6 col-lg-3 col-sm-6" href="book/{{book.isbn}}">{{book.title}}</a>
+{% endfor %}
+</div>
+
+<div class='exit row justify-content-center'>
+<form action="{{url_for('search')}}" method="POST">
+    ISBN: <input type="text" name="isbn">
+    Title: <input type="text" name="title">
+    Author: <input type="text" name="author">
+    <button>Search</button>
+</form>
+<p>Please note input is case sensitive! (i.e.<strong>h</strong>arry <strong>p</strong>otter will not search for <strong>H</strong>arry <strong>P</strong>otter book)</p>
+</div>
+
+
+{% endblock %}

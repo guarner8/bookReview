@@ -1,0 +1,44 @@
+.welcome {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.exit {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+textarea {
+    width: 450px;
+    height: 300px;
+}
+
+.card-footer {
+    width: 100%;
+    margin-left: 0 !important;
+    position: fixed;
+    bottom: 0;
+    color: white;
+    text-align: center;
+}
+
+.star span:hover {
+    cursor: pointer;
+    color: orange;
+}
+
+.checked {
+    color: orange;
+}
+
+.star input {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+
+.star input + span{
+}
+
+
+

@@ -1,0 +1,119 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="welcome row justify-content-center justify-content-between">
+    <span class="col-2">Welcome {{user}}!</span>
+    <span class="col-7"></span>
+    <form class="col-1" action="{{url_for('logout')}}">
+        <button>Logout</button>
+    </form>
+    <form class="col-2" action="{{url_for('index')}}">
+        <button>Back to Search</button>
+    </form>
+    
+</div>
+
+<div class="row">
+<div class="col-6">
+<h1>{{book.title}}</h1>
+<h6>By {{book.author}}, {{book.year}}</h6>
+<p>ISBN: {{book.isbn}}</p>
+{% if book_api %}
+
+<h3>GoodReads</h3>
+<span>Review count: {{book_api['books'][0]['work_ratings_count']}}</span><br>
+<span>Average score: {{book_api['books'][0]['average_rating']}}</span><br><br>
+{% endif %}
+
+{% for review in reviews %}
+
+{% endfor %}
+<h3>Write a review!</h3>
+<form action="../review/{{book.isbn}}" method="POST">
+    <span class="heading">Rating: </span>
+
+    <label class="star">
+          <input type="radio" name="rating" value="1">
+          <span class="fa fa-star" id="1-star">
+          </span>
+    </label>
+    <label class="star">
+          <input type="radio" name="rating" value="2">
+          <span class="fa fa-star" id="2-star"></span>
+    </label>
+    <label class="star">
+          <input type="radio" name="rating" value="3">
+          <span class="fa fa-star" id="3-star"></span>
+    </label>
+    <label class="star">
+          <input type="radio" name="rating" value="4">
+          <span class="fa fa-star" id="4-star"></span>
+    </label>
+    <label class="star">
+          <input type="radio" name="5-star" value="5">
+          <span class="fa fa-star" id="5-star"></span>
+    </label>
+
+    <br>
+
+    <textarea type="text" name="review_text" placeholder="Write a review!"></textarea>
+    <button>Submit</button>
+</form>
+</div>
+<div class="col-6">
+    <h1>Reviews</h1>
+    {% if error %}
+    <div class="row justify-content-md-center">
+        <div class="text-center col-md-11 alert alert-danger" role"alert">
+        {{error}}
+        </div>
+    {% endif %}
+    {% for review in reviews %}
+        <div class="container bg-light p-3"> 
+        <h6>Submitted by: {{review.username}}</h6> 
+        <span class="conv-stars">Rating: {{review.rating}}</span><br>
+        <span>Review: {{review.review}}</span></br>
+        </div>
+    {% endfor %}
+</div>
+</div>
+
+<div class='exit row justify-content-center'>
+<form action="{{url_for('search')}}" method="POST">
+    ISBN: <input type="text" name="isbn">
+    Title: <input type="text" name="title">
+    Author: <input type="text" name="author">
+    <button>Search</button>
+    <br><br>
+</form>
+</div>
+
+
+
+
+<script>
+let star = document.querySelectorAll('.fa-star');
+star.forEach( function(elem) {
+    elem.addEventListener('click', function () {
+        const prev = elem.id[0];
+        star.forEach( function(lem) {
+            lem.classList.remove('checked');
+        });
+        for (let i = 0; i < prev; i++) {
+            star[i].classList.toggle('checked');
+        }
+    });
+});
+
+let convs = document.querySelectorAll('.conv-stars');
+convs.forEach( function(ele) {
+    let rate = ele.innerHTML[8];
+    let injection = "Rating: ";
+    for (let i = 0; i < rate; i++) {
+        injection = injection + '<span class="fa fa-star" style="color:orange">';
+    }
+    ele.innerHTML=injection;
+});
+</script>
+
+
+{% endblock %}
